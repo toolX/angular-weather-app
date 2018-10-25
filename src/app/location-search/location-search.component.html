@@ -1,0 +1,37 @@
+<form [formGroup]="userConfig" (ngSubmit)="onSubmit()" novalidate>
+  {{ userConfig.value | json }}
+
+  <div class="form-group">
+    <label for="language">Please choose your language</label>
+    <select formControlName="userLanguage" name="language-select" id="language-select" class="custom-select">
+      <option *ngFor="let language of languages" value="{{language[0]}}">{{ language[1] }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-check-label">Please specify desired metric system</label>
+    <p class="form-check mb-0">
+      <input formControlName="userMetricSystem" type="radio" class="form-check-input" id="metric-system-us" value="us">
+      <label for="metric-system-us" class="form-check-label">Imperial units</label>
+    </p>
+    <p class="form-check mb-0">
+      <input formControlName="userMetricSystem" type="radio" class="form-check-input" id="metric-system-si" value="si" checked>
+      <label for="metric-system-si" class="form-check-label">SI units</label>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <label for="location-search">Please enter your location</label>
+    <input [class.is-invalid]="userLocation.invalid && userLocation.touched"
+          formControlName="userLocation" 
+          type="text" 
+          id="location-search" 
+          class="form-control">
+    <div *ngIf="userLocation.invalid && userLocation.touched">
+      <small *ngIf="userLocation.errors?.required" class="text-danger">Location is required</small>
+      <small *ngIf="userLocation.errors?.minlength" class="text-danger">Location must be at least 2 characters</small>
+    </div>
+  </div>
+
+  <button [disabled]="!userConfig.valid" class="btn btn-primary" type="submit">Get weather</button>
+</form>
