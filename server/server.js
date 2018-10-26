@@ -1,27 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const path = require('path');
 
-const { fetchData } = require('./fetch-data');
+const routes = require('./routes/routes');
 
 const PORT = 3000;
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, '../dist/weather-app')));
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use('/', routes);
 
-app.get('/', (req, res) => {
-  res.send('Hello from server');
-});
-
-app.post('/forecast', (req, res) => {
-  fetchData(req.body.formData).then((weather) => {
-    console.log(weather);
-  }).catch((e) => {
-    console.log(e.message);
-  });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/weather-app/index.html'));
 });
 
 app.listen(PORT, () => {
