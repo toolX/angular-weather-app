@@ -1,3 +1,6 @@
-<p>
-  weather-display works!
-</p>
+<div *ngIf="weatherData">
+  <p>Today ({{weatherData.time * 1000 | date}}) in Vitebsk is {{weatherData.temperature}} &#176;</p>
+  <p>{{weatherData.summary}}</p>
+  <p>Wind: {{weatherData.windSpeed}}</p>
+  <p>Pressure: {{weatherData.pressure}}</p>
+</div>

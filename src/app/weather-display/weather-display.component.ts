@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestApiService } from '../request-api.service';
 
 @Component({
   selector: 'app-weather-display',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeatherDisplayComponent implements OnInit {
 
-  constructor() { }
+  public weatherData: object;
+
+  constructor(private _requestApiService: RequestApiService) { }
 
   ngOnInit() {
+    this._requestApiService.weatherData$
+        .subscribe(
+          weatherData => {
+            console.log(weatherData);
+            this.weatherData = weatherData;
+          }
+        );
   }
 
 }
